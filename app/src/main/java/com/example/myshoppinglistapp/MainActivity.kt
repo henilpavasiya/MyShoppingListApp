@@ -29,13 +29,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun MyShoppingListApp() {
-    Text(
-        text = "Hello Shopping App! ",
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
