@@ -71,22 +71,28 @@ fun MyShoppingListApp() {
                 if (item.isEditing) {
                     ShoppingItemEditor(item = item, onEditComplete = { editName, editQuantity ->
                         sItems.value = sItems.value.map {
-                            if (it.id == item.id) it.copy(
+                            if (it.id == item.id)
+                                it.copy(
                                 itemName = editName,
                                 itemQuantity = editQuantity,
                                 isEditing = false
-                            ) else it
+                            )
+                            else
+                                it
                         }
                     })
                 } else {
                     AddItemsInShoppingList(itemName = item,
                         onEditClick = {
                             sItems.value = sItems.value.map {
-                                if (it.id == item.id) it.copy(isEditing = true) else it
+                                if (it.id == item.id) it.copy(isEditing = true)
+                                else it
                             }
                         },
                         onDeleteClick = {
-                            sItems.value = sItems.value.filter { it.id != item.id }
+                            sItems.value = sItems.value.filter {
+                                it.id != item.id
+                            }
                         })
                 }
             }
