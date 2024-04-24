@@ -207,6 +207,7 @@ fun AddItemsInShoppingList(
     onDeleteClick: () -> Unit
 ) {
     Row(
+        horizontalArrangement = Arrangement.SpaceAround,
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
