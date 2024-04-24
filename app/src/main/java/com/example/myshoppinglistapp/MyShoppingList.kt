@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun MyShoppingListApp() {
 
-    var sItems = remember{ mutableStateOf(listOf<ShoppingList>()) }
+    var sItems = remember { mutableStateOf(listOf<ShoppingList>()) }
 
     val isAlertDialog = remember {
         mutableStateOf(false)
@@ -67,8 +67,24 @@ fun MyShoppingListApp() {
                 .fillMaxHeight()
                 .padding(8.dp)
         ) {
-            items(sItems.value){
-                AddItemsInShoppingList(it, {}) {}
+            items(sItems.value) { item ->
+                if (item.isEditing) {
+                    ShoppingItemEditor(item = item, onEditComplete =  { editName, editQuantity ->
+                        sItems.value = sItems.value.map {
+                            if (it.id == item.id) it.copy(itemName = editName, itemQuantity = editQuantity, isEditing = false) else it
+                        }
+                    })
+                } else {
+                    AddItemsInShoppingList(itemName = item,
+                        onEditClick = {
+                            sItems.value = sItems.value.map {
+                                if (it.id == item.id) it.copy(isEditing = true) else it
+                            }
+                        },
+                        onDeleteClick = {
+                            sItems.value = sItems.value.filter { it.id != item.id }
+                        })
+                }
             }
         }
     }
@@ -80,19 +96,19 @@ fun MyShoppingListApp() {
             },
             title = { Text(text = "Add Items-AlertDialog") },
             text = {
-                Column{
+                Column {
                     OutlinedTextField(
                         value = itemName.value,
                         onValueChange = {
                             itemName.value = it
                         },
-                        label = { Text(text = "Enter item name:")}
+                        label = { Text(text = "Enter item name:") }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     OutlinedTextField(value = itemQuantity.value, onValueChange = {
                         itemQuantity.value = it
                     },
-                        label = { Text(text = "Enter item quantity:")})
+                        label = { Text(text = "Enter item quantity:") })
                 }
             },
             confirmButton = {
@@ -102,7 +118,7 @@ fun MyShoppingListApp() {
                 ) {
 
                     Button(onClick = {
-                        if(itemName.value.isNotBlank()){
+                        if (itemName.value.isNotBlank()) {
                             val newItem = ShoppingList(
                                 id = sItems.value.size + 1,
                                 itemName = itemName.value,
@@ -129,31 +145,33 @@ fun MyShoppingListApp() {
 
 }
 
+
 @Composable
-fun ShoppingItemEditor(item: ShoppingList, onEditComplete: (String, Int) -> Unit){
+fun ShoppingItemEditor(item: ShoppingList, onEditComplete: (String, Int) -> Unit) {
     var editedName by remember { mutableStateOf(item.itemName) }
     var editedQuantity by remember { mutableStateOf(item.itemQuantity.toString()) }
     var isEditing by remember { mutableStateOf(item.isEditing) }
 
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .background(Color.White)
-        .padding(8.dp),
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     )
     {
         Column {
             BasicTextField(
-                value= editedName,
-                onValueChange = {editedName = it},
+                value = editedName,
+                onValueChange = { editedName = it },
                 singleLine = true,
                 modifier = Modifier
                     .wrapContentSize()
                     .padding(8.dp)
             )
             BasicTextField(
-                value= editedQuantity,
-                onValueChange = {editedQuantity = it},
+                value = editedQuantity,
+                onValueChange = { editedQuantity = it },
                 singleLine = true,
                 modifier = Modifier
                     .wrapContentSize()
@@ -166,33 +184,39 @@ fun ShoppingItemEditor(item: ShoppingList, onEditComplete: (String, Int) -> Unit
                 isEditing = false
                 onEditComplete(editedName, editedQuantity.toIntOrNull() ?: 1)
             }
-        ){
+        ) {
             Text("Save")
         }
     }
-
-
 }
+
 @Composable
-fun AddItemsInShoppingList(itemName: ShoppingList, onEditClick:()-> Unit, onDeleteClick:()-> Unit){
-    Row (modifier = Modifier
-        .padding(8.dp)
-        .fillMaxWidth()
-        .border(
-            border = BorderStroke(2.dp, Color(0XFF018786)),
-            shape = RoundedCornerShape(20)
-        )){
-        Text(text = itemName.itemName,modifier = Modifier.padding(8.dp))
-        Text(text = "Quantity: "+itemName.itemQuantity.toString(),modifier = Modifier.padding(8.dp))
-        Row(modifier = Modifier.padding(8.dp)){
-            IconButton(onClick = onEditClick){
+fun AddItemsInShoppingList(
+    itemName: ShoppingList,
+    onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .border(
+                border = BorderStroke(2.dp, Color(0XFF018786)),
+                shape = RoundedCornerShape(20)
+            )
+    ) {
+        Text(text = itemName.itemName, modifier = Modifier.padding(8.dp))
+        Text(
+            text = "Quantity: " + itemName.itemQuantity.toString(),
+            modifier = Modifier.padding(8.dp)
+        )
+        Row(modifier = Modifier.padding(8.dp)) {
+            IconButton(onClick = onEditClick) {
                 Icon(imageVector = Icons.Default.Edit, contentDescription = null)
             }
-
-            IconButton(onClick = onDeleteClick){
+            IconButton(onClick = onDeleteClick) {
                 Icon(imageVector = Icons.Default.Delete, contentDescription = null)
             }
-
         }
     }
 }
