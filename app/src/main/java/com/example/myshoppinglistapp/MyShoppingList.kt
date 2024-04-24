@@ -69,9 +69,13 @@ fun MyShoppingListApp() {
         ) {
             items(sItems.value) { item ->
                 if (item.isEditing) {
-                    ShoppingItemEditor(item = item, onEditComplete =  { editName, editQuantity ->
+                    ShoppingItemEditor(item = item, onEditComplete = { editName, editQuantity ->
                         sItems.value = sItems.value.map {
-                            if (it.id == item.id) it.copy(itemName = editName, itemQuantity = editQuantity, isEditing = false) else it
+                            if (it.id == item.id) it.copy(
+                                itemName = editName,
+                                itemQuantity = editQuantity,
+                                isEditing = false
+                            ) else it
                         }
                     })
                 } else {
