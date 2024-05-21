@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
 import com.example.myshoppinglistapp.ui.theme.MyShoppingListAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,6 +28,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+@Composable
+fun Navigation(){
+    NavHost()
 }
 
 @Preview(showBackground = true)
