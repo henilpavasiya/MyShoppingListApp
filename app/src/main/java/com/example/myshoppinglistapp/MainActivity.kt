@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MyShoppingListApp()
+                    Navigation()
                 }
             }
         }
@@ -68,5 +68,5 @@ fun Navigation(){
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    MyShoppingListApp()
+    Navigation()
 }
