@@ -36,11 +36,6 @@ MyShoppingListApp is an Android application built using Kotlin and Jetpack Compo
     * Creates a Retrofit client for the geocoding API.
 8. ShoppingListApp
     * Displays the main UI for the shopping list.
-      
-## Permissions
-The app requires location permissions. Ensure these permissions are granted for the app to function correctly: 
-   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> 
-   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 ## Navigation
 The app uses Jetpack Navigation for navigating between the shopping list screen and the location selection screen.
